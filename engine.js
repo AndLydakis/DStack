@@ -1,16 +1,27 @@
 const Generation = require('./generation');
 
-class GeneratioEngine {
+class GenerationEngine {
     constructor() {
         this.generation = null;
+    }
+
+    start() {
+        this.buildNewGeneration();
+    }
+
+    stop() {
+        clearTimeout(this.timer);
     }
 
     buildNewGeneration() {
         this.generation = new Generation();
         console.log('New Generation: ', this.generation);
 
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
+            console.log('This Generation has expired, building new one');
             this.buildNewGeneration();
         }, this.generation.expiration.getTime() - Date.now());
     }
 }
+
+module.exports = GenerationEngine;
