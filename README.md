@@ -1,1 +1,1 @@
-run with npm run start
+run with ```npm run configure-dev```
