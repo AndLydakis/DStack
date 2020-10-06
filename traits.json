@@ -3,22 +3,22 @@
     "type": "backgroundColor",
     "values": [
       "black",
-      "white",
       "green",
+      "white",
       "blue"
     ]
   },
   {
     "type": "pattern",
     "values": [
-      "pain",
+      "plain",
       "striped",
-      "patchy",
-      "spotted"
+      "spotted",
+      "patchy"
     ]
   },
   {
-    "type": "type",
+    "type": "build",
     "values": [
       "slender",
       "stocky",
