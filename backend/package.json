@@ -5,7 +5,8 @@
   "main": "./bin/server.js",
   "scripts": {
     "start": "node ./bin/server",
-    "dev": "nodemon ./bin/server"
+    "dev": "nodemon ./bin/server",
+    "configure": "./bin/configure_db.sh"
   },
   "author": "Abdreas Lydakis",
   "dependencies": {
