@@ -1,7 +1,22 @@
 const Dragon = require('./dragon');
 const Generation = require('./generation');
-const GenerationEngine = require('./engine');
+const GenerationEngine = require('./generation/engine');
+const dragonRouter = require('./api/dragon');
+const generationRouter = require('./api/generation');
 
+const express = require('express');
+const app = express();
+
+engine = new GenerationEngine();
+
+app.locals.engine = engine;
+
+app.use('/dragon', dragonRouter);
+app.use('/', generationRouter);
+
+engine.start();
+
+module.exports = app;
 // console.log(new Dragon({birthdate: new Date(), nickname: 'test'}));
 // console.log(new Dragon());
 //
@@ -19,8 +34,6 @@ const GenerationEngine = require('./engine');
 // }, 15000)
 
 
-engine = new GenerationEngine();
-engine.start();
-setTimeout(() => {
-    engine.stop();
-}, 20000);
+// setTimeout(() => {
+//     engine.stop();
+// }, 20000);

@@ -1,0 +1,14 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend of DragonStack",
+  "main": "./bin/server.js",
+  "scripts": {
+    "start": "node ./bin/server",
+    "dev": "nodemon ./bin/server"
+  },
+  "author": "Abdreas Lydakis",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
