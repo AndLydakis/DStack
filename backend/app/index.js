@@ -1,39 +1,23 @@
-const Dragon = require('./dragon');
-const Generation = require('./generation');
-const GenerationEngine = require('./generation/engine');
-const dragonRouter = require('./api/dragon');
-const generationRouter = require('./api/generation');
-
+const GenerationEngine = require('./generation/engine.js');
 const express = require('express');
+const dragonRouter = require('./api/dragon.js');
+const generationRouter = require('./api/generation.js');
 const app = express();
-
-engine = new GenerationEngine();
+const engine = new GenerationEngine();
 
 app.locals.engine = engine;
-
 app.use('/dragon', dragonRouter);
-app.use('/', generationRouter);
+app.use('/generation', generationRouter);
+
+// Error handling function
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+
+    res.status(statusCode).json({
+        type: 'error', message: err.message
+    });
+});
 
 engine.start();
 
 module.exports = app;
-// console.log(new Dragon({birthdate: new Date(), nickname: 'test'}));
-// console.log(new Dragon());
-//
-// setTimeout(() => {
-//     const g = new Dragon();
-//     console.log(g);
-// }, 3000);
-
-// const generation = new Generation();
-// console.log(generation);
-// console.log(generation.newDragon());
-// setTimeout(() => {
-//     const d = generation.newDragon();
-//     console.log(d);
-// }, 15000)
-
-
-// setTimeout(() => {
-//     engine.stop();
-// }, 20000);

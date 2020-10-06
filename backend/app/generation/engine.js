@@ -16,7 +16,7 @@ class GenerationEngine {
 
     buildNewGeneration() {
         const generation = new Generation();
-        console.log('New Generation: ', generation);
+
 
         console.log('Storing New Generation');
         GenerationTable.storeGeneration(generation)
@@ -24,6 +24,8 @@ class GenerationEngine {
                 this.generation = generation;
                 this.generation.generationId = generationId;
                 console.log('Stored generation ', this.generation.generationId);
+
+                console.log('New Generation: ', this.generation);
 
                 this.timer = setTimeout(() => {
                     console.log('This Generation has expired, building new one');
