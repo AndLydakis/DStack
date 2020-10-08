@@ -8,7 +8,8 @@ class TraitTable {
                 'WHERE "traitType"=$1 AND "traitValue"=$2',
                 [traitType, traitValue],
                 (error, response) => {
-                    if (error) reject(error);
+                    if (error) return reject(error);
+                    console.log(`Looking up trait [${traitType}: ${traitValue}]`)
                     const traitId = response.rows[0].id;
                     console.log('Retrieved trait id: ', traitId);
                     resolve({traitId: traitId});

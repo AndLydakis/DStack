@@ -1,4 +1,5 @@
 const pool = require('../../databasePool');
+const DragonTraitTable = require('../dragontrait/table');
 
 class DragonTable {
     static storeDragon(dragon) {
@@ -14,11 +15,37 @@ class DragonTable {
                         if (error) return reject(error);
                         const dragonId = response.rows[0].id;
                         console.log('Stored dragon ', dragonId);
+
+                        Promise.all(dragon.traits.map(({traitType, traitValue}) => {
+                            return DragonTraitTable.storeDragonTrait({dragonId, traitType, traitValue})
+                        }))
+                            .then(() => {
+                                console.log('All dragon traits stored successfully');
+                                resolve({dragonId});
+                            })
+                            .catch(error => {
+                                reject(error)
+                            });
+
                         return resolve({dragonId});
                     }
                 )
             }
         )
+    }
+
+    static getDragon({dragonId}) {
+        return new Promise((resolve, reject) => {
+            pool.query('SELECT birthdate, nickname, "generationId"' +
+                ' FROM dragon ' +
+                'WHERE dragon.id=$1',
+                [dragonId],
+                (error, response) => {
+                    if (error) return reject(error);
+                    if (response.rows.length === 0) reject(new Error('No dragon found'));
+                    resolve(response.rows[0]);
+                })
+        })
     }
 }
 
