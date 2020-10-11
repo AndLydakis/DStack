@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/AndLydakis/DStack#readme",
   "dependencies": {
-    "foreman": "^3.0.1"
+    "foreman": "^3.0.1",
+    "redux-thunk": "^2.3.0"
   }
 }
