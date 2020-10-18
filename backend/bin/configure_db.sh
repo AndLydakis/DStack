@@ -6,6 +6,7 @@ echo "Re-Creating Database"
 createdb -U node_user dragonstackdb
 
 echo "Connecting to db"
+psql -U node_user dragonstackdb < ./bin/sql/account.sql
 psql -U node_user dragonstackdb < ./bin/sql/generation.sql
 psql -U node_user dragonstackdb < ./bin/sql/dragon.sql
 psql -U node_user dragonstackdb < ./bin/sql/trait.sql

@@ -3,7 +3,7 @@ import fetchStates from './fetchStates';
 
 const DEFAULT_GENERATION = {generationId: '', expiration: ''};
 
-const generationReducer = (state = DEFAULT_GENERATION, action) => {
+const generation = (state = DEFAULT_GENERATION, action) => {
     switch (action.type) {
         case GENERATION.FETCH:
             return {...state, status: fetchStates.fetching};
@@ -16,4 +16,4 @@ const generationReducer = (state = DEFAULT_GENERATION, action) => {
     }
 }
 
-export default generationReducer;
+export default generation;

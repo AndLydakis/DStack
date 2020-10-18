@@ -1,32 +1,21 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 import DragonAvatar from "./avatar";
+import {fetchDragon} from '../actions/dragon';
 
-const DEFAULT_DRAGON = {dragonId: '', generationId: '', nickname: '', birthdate: '', traits: []}
 
 class Dragon extends Component {
-
-    state = {
-        dragon: DEFAULT_DRAGON
-    }
-
-    fetchDragon = () => {
-        fetch('http://localhost:3000/dragon/new')
-            .then(response => response.json())
-            .then(json => this.setState({dragon: json.dragon}))
-            .catch(err => console.log('Could not fetch dragon', err));
-    }
-
-    componentDidMount = () => {
-        this.fetchDragon();
-    }
-
+    
     render() {
         return <div>
-            <Button onClick={this.fetchDragon}>New Dragon</Button>
-            <DragonAvatar dragon={this.state.dragon}/>
+            <Button onClick={this.props.fetchDragon}>New Dragon</Button>
+            <DragonAvatar dragon={this.props.dragon}/>
         </div>
     }
 }
 
-export default Dragon;
+export default connect(
+    ({dragon}) => ({dragon}), //inline MapStateToProps,
+    {fetchDragon} //inline MapDispatchToProps
+)(Dragon);
