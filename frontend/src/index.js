@@ -3,8 +3,7 @@ import {render} from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk'
-import Generation from './components/generation'
-import Dragon from './components/dragon'
+import Root from './components/root'
 import rootReducer from './reducers';
 import './css/index';
 
@@ -15,11 +14,7 @@ const store = createStore(rootReducer,
 
 render(
     <Provider store={store}>
-        <div>
-            <h2>DragonStack</h2>
-            <Generation/>
-            <Dragon/>
-        </div>
+        <Root/>
     </Provider>,
     document.getElementById("root")
 );
