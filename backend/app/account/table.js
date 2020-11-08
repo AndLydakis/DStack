@@ -14,7 +14,6 @@ class AccountTable {
                     (error, response) => {
                         if (error) return reject(error);
                         const accountId = response.rows[0].id;
-                        console.log('Stored account ', accountId);
                         return resolve({accountId});
                     }
                 )
@@ -22,19 +21,37 @@ class AccountTable {
         )
     }
 
-    // static getDragon({dragonId}) {
-    //     return new Promise((resolve, reject) => {
-    //         pool.query('SELECT birthdate, nickname, "generationId"' +
-    //             ' FROM dragon ' +
-    //             'WHERE dragon.id=$1',
-    //             [dragonId],
-    //             (error, response) => {
-    //                 if (error) return reject(error);
-    //                 if (response.rows.length === 0) reject(new Error('No dragon found'));
-    //                 resolve(response.rows[0]);
-    //             })
-    //     })
-    // }
+    static getAccount({usernameHash}) {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'SELECT id, "passwordHash", "sessionId" ' +
+                'FROM account' +
+                ' WHERE "usernameHash" = $1',
+                [usernameHash],
+                (error, response) => {
+                    if (error) return reject(error);
+                    console.log(response.rows[0]);
+                    resolve({account: response.rows[0]});
+                }
+            )
+        })
+    }
+
+    static updateSessionId({sessionId, usernameHash}) {
+        return new Promise((resolve, reject) => {
+            pool.query('UPDATE account ' +
+                'SET "sessionId" = $1' +
+                ' WHERE "usernameHash" = $2',
+                [
+                    sessionId, usernameHash
+                ],
+                (error, response) => {
+                    if (error) return reject(error);
+                    console.log('Updating session Id')
+                    resolve();
+                })
+        })
+    }
 }
 
 module.exports = AccountTable;
