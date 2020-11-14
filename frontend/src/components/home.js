@@ -1,6 +1,9 @@
-import Generation from "./generation";
-import Dragon from "./dragon";
 import React, {Component} from "react";
+import {Button} from "react-bootstrap"
+import Dragon from './dragon';
+import Generation from './generation';
+import {connect} from 'react-redux';
+import {logout} from '../actions/account'
 
 class Home extends Component{
     render(){
@@ -9,9 +12,13 @@ class Home extends Component{
                 <h2>DragonStack</h2>
                 <Generation/>
                 <Dragon/>
+                <Button onClick={this.props.logout} className='logout-button'>Log Out</Button>
             </div>
         )
     }
 }
 
-export default Home;
+export default connect(
+    null,
+    {logout}
+)(Home);
