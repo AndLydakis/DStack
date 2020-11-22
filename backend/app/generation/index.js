@@ -1,11 +1,13 @@
 const Dragon = require('../dragon');
 const {REFRESH_RATE, SECONDS} = require('../config.js');
 const refreshRate = REFRESH_RATE * SECONDS;
+const dragonsPerGeneration = 10;
 
 class Generation {
     constructor() {
         this.expiration = this.calculateExpiration();
         this.generationId = undefined;
+        this.accountCounts = {};
     }
 
     calculateExpiration() {
@@ -16,7 +18,11 @@ class Generation {
         return new Date(Date.now() + msUntilExpiration);
     }
 
-    newDragon() {
+    newDragon({accountId}) {
+        if (!(accountId in this.accountCounts)) {this.accountCounts[accountId] = 1}
+        else if (this.accountCounts[accountId] === dragonsPerGeneration) {
+            throw new Error('You have reached the limit of dragons per generation');
+        } else (this.accountCounts[accountId] += 1)
         if (Date.now() > this.expiration) {
             throw new Error(`Generation has expired: ${this.expiration}`);
         }

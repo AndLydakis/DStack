@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Dragon from './dragon';
 import Generation from './generation';
+import AccountInfo from './accountInfo';
 import {logout} from '../actions/account'
 
 class Home extends Component {
@@ -14,13 +15,16 @@ class Home extends Component {
                 <h2>DragonStack</h2>
                 <Generation/>
                 <Dragon/>
-                <hr />
+                <hr/>
+                <AccountInfo/>
+                <hr/>
                 <Link to='/account-dragons'>Account Dragons</Link>
+                <br />
+                <Link to='/public-dragons'>Public Dragons</Link>
             </div>
         )
     }
 }
-
 
 
 export default connect(

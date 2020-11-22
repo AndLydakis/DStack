@@ -10,7 +10,6 @@ class GenerationTable {
                 (error, response) => {
                     if (error) reject(error);
                     const generationId = response.rows[0].id;
-                    console.log('Generation stored successfully: ', generationId);
                     resolve({generationId});
                 })
         });

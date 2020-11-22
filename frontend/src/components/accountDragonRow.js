@@ -6,11 +6,26 @@ import {BACKEND} from '../config';
 class AccountDragonRow extends Component {
     state = {
         nickname: this.props.dragon.nickname,
-        editing: false
+        isPublic: this.props.dragon.isPublic,
+        saleValue: this.props.dragon.saleValue,
+        sireValue: this.props.dragon.sireValue,
+        editing: false,
     }
 
     updateNickname = event => {
         this.setState({nickname: event.target.value});
+    }
+
+    updatePublic = event => {
+        this.setState({isPublic: event.target.checked});
+    }
+
+    updateSaleValue = event => {
+        this.setState({saleValue: parseInt(event.target.value)});
+    }
+
+    updateSireValue = event => {
+        this.setState({sireValue: parseInt(event.target.value)});
     }
 
     toggleEdit = () => {
@@ -18,6 +33,7 @@ class AccountDragonRow extends Component {
     }
 
     save = () => {
+        console.log('save', this.state);
         fetch(
             `${BACKEND.url}/dragon/update`,
             {
@@ -25,7 +41,10 @@ class AccountDragonRow extends Component {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     dragonId: this.props.dragon.dragonId,
-                    nickname: this.state.nickname
+                    nickname: this.state.nickname,
+                    isPublic: this.state.isPublic,
+                    saleValue: this.state.saleValue,
+                    sireValue: this.state.sireValue
                 })
             })
             .then(response => response.json())
@@ -54,15 +73,47 @@ class AccountDragonRow extends Component {
                 <div>{this.props.dragon.nickname}</div>
                 <input
                     type='text'
-                    value={this.state.nickame}
+                    value={this.state.nickname}
                     onChange={this.updateNickname}
                     disabled={!this.state.editing}
                 />
+
                 <br/>
                 <DragonAvatar dragon={this.props.dragon}/>
-                {
-                    this.state.editing ? this.saveButton : this.editButton
-                }
+                <div>
+                    <span>
+                        Sale Value: {' '}
+                        <input
+                            className='account-dragon-row-input'
+                            type='number'
+                            value={this.state.saleValue}
+                            disabled={!this.state.editing}
+                            onChange={this.updateSaleValue}
+                        />
+                    </span>{' '}
+                    <span>
+                        Sire Value: {' '}
+                        <input
+                            className='account-dragon-row-input'
+                            type='number'
+                            value={this.state.sireValue}
+                            disabled={!this.state.editing}
+                            onChange={this.updateSireValue}
+                        />
+                    </span>{' '}
+                    <span>
+                        Public: {' '}
+                        <input
+                            type='checkbox'
+                            disabled={!this.state.editing}
+                            checked={this.state.isPublic}
+                            onChange={this.updatePublic}
+                        />
+                    </span>
+                    {
+                        this.state.editing ? this.saveButton : this.editButton
+                    }
+                </div>
             </div>
         )
     }

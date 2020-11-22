@@ -11,10 +11,8 @@ class DragonTraitTable {
                         [dragonId, traitId],
                         (error, response) => {
                             if (error) {
-                                console.error('Error storing dragonTrait');
                                 reject(error);
                             } else {
-                                console.log('DragonTrait stored successfully');
                                 resolve();
                             }
                         })

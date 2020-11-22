@@ -1,15 +1,17 @@
 const pool = require('../../databasePool');
+const {STARTING_BALANCE} = require('../config');
 
 class AccountTable {
     static storeAccount({usernameHash, passwordHash}) {
         return new Promise(
             (resolve, reject) => {
-                pool.query('INSERT INTO account("usernameHash", "passwordHash")' +
-                    ' VALUES($1, $2)' +
+                pool.query('INSERT INTO account("usernameHash", "passwordHash", balance)' +
+                    ' VALUES($1, $2, $3)' +
                     ' RETURNING id',
                     [
                         usernameHash,
-                        passwordHash
+                        passwordHash,
+                        STARTING_BALANCE
                     ],
                     (error, response) => {
                         if (error) return reject(error);
@@ -24,13 +26,12 @@ class AccountTable {
     static getAccount({usernameHash}) {
         return new Promise((resolve, reject) => {
             pool.query(
-                'SELECT id, "passwordHash", "sessionId" ' +
-                'FROM account' +
-                ' WHERE "usernameHash" = $1',
+                'SELECT id, "passwordHash", "sessionId", balance ' +
+                'FROM account ' +
+                'WHERE "usernameHash" = $1',
                 [usernameHash],
                 (error, response) => {
                     if (error) return reject(error);
-                    console.log(response.rows[0]);
                     resolve({account: response.rows[0]});
                 }
             )
@@ -47,9 +48,23 @@ class AccountTable {
                 ],
                 (error, response) => {
                     if (error) return reject(error);
-                    console.log('Updating session Id')
                     resolve();
                 })
+        })
+    }
+
+    static updateBalance({accountId, saleValue}) {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'UPDATE account ' +
+                'SET balance = balance + $2 ' +
+                'WHERE id = $1',
+                [accountId, saleValue],
+                (error, response) => {
+                    if (error) return reject(error);
+                    resolve();
+                }
+            )
         })
     }
 }

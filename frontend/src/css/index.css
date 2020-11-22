@@ -33,3 +33,9 @@ body {
 .dragon-avatar-image {
     z-index: 1;
 }
+
+.account-dragon-row-input {
+    width: 100px;
+    height: 40px;
+    margin-right: 15px;
+}

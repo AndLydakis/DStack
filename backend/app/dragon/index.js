@@ -16,16 +16,31 @@ const DEFAULT_PROPERTIES = {
         return traits;
     },
     generationId: undefined,
-    dragonId: undefined
+    dragonId: undefined,
+    isPublic: false,
+    saleValue: 0,
+    sireValue: 0,
 }
 
 class Dragon {
-    constructor({dragonId, birthdate, nickname, traits, generationId} = {}) {
+    constructor({
+                    dragonId,
+                    birthdate,
+                    nickname,
+                    traits,
+                    generationId,
+                    isPublic,
+                    saleValue,
+                    sireValue
+                } = {}) {
         this.dragonId = dragonId || DEFAULT_PROPERTIES.dragonId;
         this.birthdate = birthdate || DEFAULT_PROPERTIES.birthdate;
         this.nickname = nickname || DEFAULT_PROPERTIES.nickname;
         this.traits = traits || DEFAULT_PROPERTIES.traits;
         this.generationId = generationId || DEFAULT_PROPERTIES.generationId;
+        this.isPublic = isPublic || DEFAULT_PROPERTIES.isPublic;
+        this.saleValue = saleValue || DEFAULT_PROPERTIES.saleValue;
+        this.sireValue = sireValue || DEFAULT_PROPERTIES.sireValue;
     }
 }
 

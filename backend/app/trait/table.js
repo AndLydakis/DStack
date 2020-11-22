@@ -9,9 +9,7 @@ class TraitTable {
                 [traitType, traitValue],
                 (error, response) => {
                     if (error) return reject(error);
-                    console.log(`Looking up trait [${traitType}: ${traitValue}]`)
                     const traitId = response.rows[0].id;
-                    console.log('Retrieved trait id: ', traitId);
                     resolve({traitId: traitId});
                 })
         });

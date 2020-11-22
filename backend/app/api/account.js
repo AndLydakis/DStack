@@ -4,7 +4,7 @@ const AccountDragonTable = require('../accountDragon/table.js');
 const Session = require('../account/session.js');
 const {hash} = require('../account/helper.js');
 const {setSession, authenticatedAccount} = require('./helper');
-const getDragonWithTraits = require('../dragon/helper');
+const {getDragonWithTraits} = require('../dragon/helper');
 
 const router = new Router();
 
@@ -95,5 +95,16 @@ router.get('/dragons', (req, res, next) => {
         })
         .catch(error => next(error));
 })
+
+router.get('/info', (req, res, next) => {
+    authenticatedAccount({sessionString: req.cookies.sessionString})
+        .then(({account, username}) => res.json({
+            info: {
+                balance: account.balance,
+                username: username
+            }
+        }))
+        .catch(error => next(error));
+});
 
 module.exports = router;
