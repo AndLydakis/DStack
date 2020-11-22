@@ -3,7 +3,9 @@ import {BACKEND} from '../config';
 
 export const fetchDragon = () => (dispatch) => {
     dispatch({type: DRAGON.FETCH});
-    return fetch(`${BACKEND.url}/dragon/new`)
+    return fetch(
+        `${BACKEND.url}/dragon/new`,
+        {credentials: 'include'})
         .then(response => {
             console.log('dragon fetch response: ', response);
             response.json().then(json => {

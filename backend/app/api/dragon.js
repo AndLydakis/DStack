@@ -1,21 +1,36 @@
 const {Router} = require('express');
 const DragonTable = require('../dragon/table');
+const {authenticatedAccount} = require('./helper');
+const AccountDragonTable = require('../accountDragon/table');
 
 const router = new Router();
 
-router.get('/new',(req, res, next)=>{
-    const dragon = req.app.locals.engine.generation.newDragon();
+router.get('/new', (req, res, next) => {
+    let accountId, dragon;
 
-    DragonTable.storeDragon(dragon)
-        .then(({dragonId})=>{
-            console.log('dragonId', dragonId);
+    authenticatedAccount(
+        {sessionString: req.cookies.sessionString}
+    )
+        .then(({account}) => {
+            accountId = account.id;
+            dragon = req.app.locals.engine.generation.newDragon();
+            return DragonTable.storeDragon(dragon);
+        })
+        .then(({dragonId}) => {
             dragon.dragonId = dragonId;
-            res.json({dragon: dragon});
+            return AccountDragonTable.storeAccountDragon(
+                {accountId, dragonId});
         })
-        .catch(error=>{
-            console.log('Error inserting dragon into db: ', error);
-            next(error);
-        })
+        .then(() => res.json({dragon}))
+        .catch(error => console.error(error))
+
+});
+
+router.put('/update', (req, res, next) => {
+    const {dragonId, nickname} = req.body;
+    DragonTable.updateDragon({dragonId, nickname})
+        .then(() => res.json({message: 'successfully updated dragon'}))
+        .catch(error => next(error));
 });
 
 module.exports = router
